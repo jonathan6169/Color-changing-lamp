@@ -1,73 +1,64 @@
- int switchState = 0;
+const int greenLEDPin = 9;
+const int blueLEDPin = 10;
+const int redLEDPin = 11;
+
+
+const int redSensorPin= A0;
+const int greenSensorPin= A1;
+const int blueSensorPin= A2;
+
+int redValue = 0;
+int greenValue = 0;
+int blueValue = 0;
+
+int redSensorValue = 0;
+int greenSensorValue = 0;
+int blueSensorValue = 0;
 
 void setup() {
-  pinMode (3, OUTPUT);
-  pinMode (4, OUTPUT);
-  pinMode (5, OUTPUT);
-  pinMode (2, INPUT);
+  Serial.begin(9600);
+  pinMode(greenLEDPin, OUTPUT);
+  pinMode(redLEDPin, OUTPUT);
+  pinMode(blueLEDPin, OUTPUT);
+  
   // put your setup code here, to run once:
-  for (int thisPin = 3; thisPin < 6; thisPin++) {
-  pinMode(thisPin, OUTPUT);
-  }
 
 }
 
 void loop() {
-  switchState = digitalRead(2);
-  if (switchState == LOW){
+  redSensorValue = analogRead(redSensorPin);
+  delay(5);
+  greenSensorValue = analogRead(greenSensorPin);
+  delay(5);
+  blueSensorValue = analogRead(blueSensorPin);
+  delay(5);
+  // put your main code here, to run repeatedly:
+  
+  Serial.print("Raw Sensor Values\t Red: ");
+  Serial.println(redSensorValue);
+  delay(2000);
+  
+  Serial.print("\t Green: ");
+  Serial.println(greenSensorValue);
+  delay(2000);
 
-    digitalWrite(3, LOW);
-    digitalWrite(4, LOW);
-    digitalWrite(5, LOW);
-  }
+  Serial.print("\tBlue: ");
+  Serial.println(blueSensorValue);
+  delay(2000);
+redValue = redSensorValue/4;
+greenValue = greenSensorValue/4;
+blueValue = blueSensorValue/4;
 
-  else {
-    digitalWrite(3, HIGH);
-    digitalWrite(4, LOW);
-    digitalWrite(5, LOW);
-    delay(500); 
+Serial.print("Mapped Sensor Values \t Red: ");
+Serial.print(redValue);
 
-    digitalWrite(3, LOW);
-    digitalWrite(4, HIGH);
-    digitalWrite(5, LOW);
-    delay(500);
+Serial.print("\t Green: ");
+Serial.print(greenValue);
 
-    digitalWrite(3, LOW);
-    digitalWrite(4, LOW);
-    digitalWrite(5, HIGH);
-    delay(500); 
-    
-    digitalWrite(3, LOW);
-    digitalWrite(4, HIGH);
-    digitalWrite(5, LOW);
-    delay(500);
+Serial.print("\t Blue: ");
+Serial.print(blueValue);
 
-    digitalWrite(3, HIGH);
-    digitalWrite(4, LOW);
-    digitalWrite(5, LOW);
-    delay(500); 
-    
-  for (int thisPin = 3; thisPin < 6; thisPin--) {
-    
-    digitalWrite(3, LOW);
-    digitalWrite(4, HIGH);
-    digitalWrite(5, LOW);
-    delay(100);
-
-    digitalWrite(3, LOW);
-    digitalWrite(4, LOW);
-    digitalWrite(5, HIGH);
-    delay(100);
-
-    digitalWrite(3, LOW);
-    digitalWrite(4, HIGH);
-    digitalWrite(5, LOW);
-    delay(100);
-
-    digitalWrite(3, HIGH);
-    digitalWrite(4, LOW);
-    digitalWrite(5, LOW);
-    delay(100);
-  }
-  }
+analogWrite(redLEDPin, redValue);
+analogWrite(greenLEDPin, greenValue);
+analogWrite(blueLEDPin, blueValue);
 }
